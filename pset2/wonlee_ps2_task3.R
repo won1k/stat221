@@ -21,7 +21,7 @@ ndat = 25 # Number of data sets per simulation (1 theta per simulation)
 ndraws = 1e4
 
 # Simulate data
-curr_sim = args[1]
+curr_sim = strtoi(args[1])
 mu = mus[curr_sim]
 sigma = sigmas[curr_sim]
 log.theta = rnorm(J, mu, sigma)
