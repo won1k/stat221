@@ -1,0 +1,238 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{epstopdf}
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\usepackage[pdftex,colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,bookmarks=false,pdfpagemode=None]{hyperref}
+\usepackage{fancyhdr}
+
+\parindent0pt  % to stop indenting paragraphs
+\parskip2.5ex  % to insert vertical space between paragraphs
+
+\pagestyle{fancy}
+\headheight 35pt 
+\lhead{\sc stat-221/fall-16}
+\chead{}
+\rhead{\sc airoldi/hu}
+\rfoot{}
+\cfoot{\thepage}
+\lfoot{}
+\renewcommand{\headrulewidth}{0pt} %{0.4pt}
+\renewcommand{\footrulewidth}{0pt} %{0.4pt}
+
+\newcommand{\xs}{$x_{1:k}$ }
+\newcommand{\rn}{$\mathbb{R}^n$ }
+\newcommand{\eqdef}{\triangleq}
+\renewcommand{\P}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\var}[1]{\mathrm{V}\left(#1\right)}
+\newcommand{\cov}[1]{\mathrm{C}\left(#1\right)}
+\newcommand{\corr}[1]{\mathrm{Corr}\left(#1\right)}
+\newcommand{\N}[3]{\mathcal{N}_{#1}\left(#2, #3\right)}
+\newcommand{\Wish}[3]{\mathrm{Wish}_{#1}\left(#2, #3\right)}
+\renewcommand{\b}[1]{\vec{#1}}
+\newcommand{\tr}[1]{\mathrm{tr}\left(#1\right)}
+\newcommand{\diag}[1]{\mathrm{diag}\left(#1\right)}
+\newcommand{\ip}[2]{\left(#1 , #2 \right)}
+\newcommand{\pars}[1]{\left(#1\right)}
+\newcommand{\reals}{\mathbb{R}}  % Real numbers
+\newcommand{\vect}[1]{\vec{#1}}  % Vector
+\newcommand{\setof}[1]{\left\{#1\right\}}  % Set of elements
+\newcommand{\st}{:}  % Such that
+\newcommand{\pdf}{p}  % Probability density function
+\newcommand{\cdf}{P}  % Cumulative distribution function
+\newcommand{\ccdf}{\bar{P}}  % Complementary CDF
+\newcommand{\lhood}{\mathcal{L}}  % Likelihood function
+\newcommand{\normpdf}{\mathcal{N}}  % Normal (Gaussian) PDF
+\newcommand{\unifpdf}{\mathcal{U}}  % Uniform PDF
+\newcommand{\betapdf}{\textup{\textrm{Beta}}}  % Beta PDF
+\newcommand{\gampdf}{\textup{\textrm{Gamma}}}  % Beta PDF
+\newcommand{\wishpdf}{\mathcal{W}}  % Wishart PDF
+\newcommand{\given}{\,\left.\right|\,}  % Given (default size)
+\newcommand{\giveni}{\,\bigl.\bigr|\,}  % Given (small delimiter)
+\newcommand{\givenii}{\,\Bigl.\Bigr|\,}  % Given (medium delimiter)
+\newcommand{\giveniii}{\,\biggl.\biggr|\,}  % Given (large delimiter)
+\newcommand{\giveniv}{\,\Biggl.\Biggr|\,}  % Given (extra large delimiter)
+\newcommand{\matr}[1]{#1}  % Matrix
+\newcommand{\abs}[1]{\left|#1\right|}  % Absolute value
+\newcommand{\pdiff}[2]{\frac{\partial #1}{\partial #2}}  % Partial derivative
+\newcommand{\tp}[1]{#1^T}  % Matrix transpose
+\newcommand{\indfun}{\mathbb{I}}  % Indicator function
+\newcommand{\inv}[1]{{#1}^{-1}}  % Inverse
+\newcommand{\bracks}[1]{\left[#1\right]}  % Shortcut for brackets
+\newcommand{\bracksi}[1]{\bigl[#1\bigr]}  % Shortcut for brackets (small delimiter)
+\newcommand{\bracksii}[1]{\Bigl[#1\Bigr]}  % Shortcut for brackets (medium delimiter)
+\newcommand{\bracksiii}[1]{\biggl[#1\biggr]}  % Shortcut for brackets (large delimiter)
+\newcommand{\bracksiv}[1]{\Biggl[#1\Biggr]}  % Shortcut for brackets (extra large delimiter)
+
+\begin{document}
+\centerline{\textbf{problem set no. 1~---~due Wednesday 9/28 at 2:35 pm.}}
+
+
+\textbf{problem 1.}
+tasks: find the distribution of $Y=g(X)$ given the distribution of $X$; estimate unknown constants in the likelihood (MLE); write some short programs in R.
+
+{\em example with derivations.} define the $d$-dimensional simplex $\mathbb{S}^d$ as the set of points $\vec u \in \mathbb{R}^d$ such that the sum $\sum_{i=1}^d u_i <1$ and individual components $u_i>0$ for $i=1\dots d$. consider $\vec x \in \mathbb{R}^d$ with distribution $N_d(\vec \mu, \Sigma)$. consider the transformation $\vec u = g(\vec x)$ such that
+\[
+ \textstyle
+ u_i = \frac{e^{x_i}}{1+\sum_{j=1}^d e^{x_j}} \qquad \hbox{ and } \qquad x_i = \log (\frac{u_i}{u_{d+1}})
+\]
+where $u_{d+1} = 1-\sum_{j=1}^d u_j$. the points $\vec u$ live in $\mathbb{S}^d$. compute the density of $\vec u$.
+
+this result is known; the original paper by Aitchison \& Shen (Biometrika, 1980) will be posted online. an illustration of the calculations involved is appended to this document.
+
+{\em question 1.1. (15 point)} define the $d$-dimensional hypercube $\mathbb{H}^d \subset \mathbb{R}^d$ as the set of points $\vec u$ with individual components $u_i \in [0,1]$, for $i=1\dots d$. consider $\vec x \in \mathbb{R}^d$ with distribution $N_d(\vec \mu, \Sigma)$, where $\Sigma_{ii}=\alpha~\forall i$, $\Sigma_{ij}=-\beta~\forall ij$, and $\alpha,\beta>0$. in the spirit of the example above, consider a transformation $\vec u = g(\vec x)$ such that $g:\mathbb{R}^d \rightarrow \mathbb{H}^d$,
+\[
+ \textstyle
+	u_i = \frac{1}{1 + e^{-x_i}} \quad x_i = \log\pars{\frac{u_i}{1-u_i}}.
+\]
+ compute the density of $\vec u$. show every step of your derivations to obtain
+%
+\[
+ f_{\b{U}}(\b{u}) = \frac{1}{|2\pi \Sigma|^\frac{1}{2} \prod_{j=1}^d u_j (1-u_j)} \exp\left(-\frac{1}{2} \left(\log(\b{u} / (1 - \b{u})) - \b{\mu}\right)^\prime \Sigma^{-1} \left(\log(\b{u} / (1 - \b{u})) - \b{\mu}\right)\right).
+\]
+
+{\em question 1.2. (20 points)} compute $E(\vec u)$, $V(\vec u)$ in {\em 1.1.} 
+%
+(hint.\ 2nd-order Taylor expand $g$.)
+
+{\em question 1.3. (20 points)} derive maximum likelihood estimators for $\vec \mu, \alpha, \beta$ of $f_U(\vec u)$ in {\em 1.1.}
+
+{\em question 1.4. (5 point)} next we will write functions in \texttt{R} to work with $f_U(\vec u)$. please read the section \lq{}what to submit\rq{} carefully \textbf{before} writing any code. you will need write the functions detailed below:
+\begin{enumerate}
+\item \texttt{dhypercube(u,mu,alpha,beta)}: computes the density of a point $\vec u \in \mathbb{H}^d$, 
+\item \texttt{hypercube.mean(mu,alpha,beta)}: a function to evaluate $E(\vec u)$,
+\item \texttt{hypercube.var(mu,alpha,beta)}: a function to evaluate $V(\vec u)$, and,
+\item \texttt{hypercube.mle(U)}: a function to estimate the parameters $\vec \mu,\alpha,\beta$. this function should return a named list of the form:\\ 
+\texttt{list("mu.hat"=mu.hat,"alpha.hat"=alpha.hat,"beta.hat"=beta.hat)}\\
+where \texttt{*.hat} are the respective MLEs.
+\end{enumerate}
+%
+(hint. you can simplify your life substantially by building your functions around the corresponding functions for the multivariate normal in the existing \texttt{R} package {\tt mvtnorm}.)
+
+{\em question 1.5. (15 points)} the function {\tt rhypercube} is provided to sample points $\vec u \in \mathbb{H}^d$ so that you can check you estimators. pick three configurations of the parameters $\vec \mu,\alpha,\beta$ and report the true values versus your point estimates.
+
+{\em question 1.6. (20 points)} use the sample of 250 points provided in the file {\tt dataHypercube3D.txt} to compute the estimates for the parameters $\vec \mu,\alpha,\beta$. your code should read the file in using the command \texttt{read.table("dataHypercube3D.txt",header=TRUE)}. note that for your code to successfully execute this requires that you execute your script in the folder containing \texttt{dataHypercube3D.txt}.
+
+\emph{for the following parts, please name any figures that you produce in the format:}\\
+\texttt{myfasusername\_fig\_x.ext}, \emph{where} \texttt{x} \emph{is the figure number (1,2,\ldots)}, \texttt{ext} \emph{is the filename extension (pdf, jpg, gif) and where} \texttt{myfasusername} \emph{is replaced by your actual FAS username.}
+
+{\em question 1.7. (3 points)} how might you assess the variability of the estimates in the previous two questions? derive a computation or describe an algorithm to do this. apply your solution to assess the variability of the estimates you obtained for {\em 1.6.}
+
+{\em question 1.8. (2 points)} the hypercube model is described is only one specific model for data on $\mathbb{H}^d$. since the inidividual components $u_i$, $i=1,\ldots,d$ fall on $(0,1)$, we could instead choose to model each $u_i$ as an independent Beta random variable\footnote{for those of you who are not familiar with the beta distribution you may want to start at: \url{http://en.wikipedia.org/wiki/Beta_distribution}}. compare the goodness of fit of the Hypercube model for the data in the file {\tt dataHypercube3D.txt} versus the goodness of fit of a set of $d$ independent Beta models? your answer should compare estimates or other statistics computed under both models. 
+
+\clearpage
+
+\textbf{problem 2}
+This problem is based on replicating an analysis from ``Malaria risk on the Amazon frontier'' by de Castro et. al. (PNAS 2006). They use an unsupervised method known as a ``grade of membership'' or GoM model; this is a special form of mixture model. Your task will be to replicate a subset of their model-building and computation. This will involve probability modeling and fundamental optimization methods.
+
+The data consists of features for a set of plots in the border of the Amazon inhabited by settlers. The objective of this analysis is to identify features associated with high and low risks of contracting malaria; for example, having high-quality walls for one's home would be expected to correspond to lower risk, whereas living close to water would likely raise one's risk.
+
+We assume that each plot has features that originate from one of two distributions: high or low risk. Our objective is then to estimate both the parameters associated with each risk profile and the probability that each plot is in the high-risk group. Note that the approach used here does not make use of the actual occurance of malaria; instead, the authors assume there are two types of plots and attempt to identify them using only other features.
+
+All features are categorical and differ in the number of levels; for example, there are only two levels for \texttt{chainsaw}, but there are five levels for \texttt{dist-hosp}. The data generating process underlying this model is:
+
+\begin{algorithm}
+\begin{algorithmic}
+\STATE Given \(G_{N\text{x}2}\) and \(\Theta_{2\text{x}p}\)
+\FOR{$n=1,\cdots,N$}
+\FOR{$p=1,\cdots,P$}
+\STATE $$P(X_{n\text{x}p}|\overrightarrow{g}_{n},\overrightarrow{\theta}_{L,p},\overrightarrow{\theta}_{H,p})=g_{L,n}\cdot \text{Mult}(\overrightarrow{\theta}_{L,p},1) + g_{H,n} \cdot \text{Mult}(\overrightarrow{\theta}_{H,p},1)$$
+\STATE where \(\overrightarrow{g}_{n}=(g_{L,n},g_{H,n})\)
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+Here, $X_{n \, x \, p}$ is a matrix of features for plot $n$, $\theta_{L,p}$ is the vector of multinomial probabilities for feature $p$ in the low-risk group, $\theta_{H,p}$ is an analogous vector for the high-risk group. Finally, $g_{L,n}$ and $g_{H,n}$ are the probabilities that plot $n$ belongs to the low or high-risk group, respectively ($g_{L,n} = 1 - g_{H,n}$).
+
+The data for this problem can be found in the \texttt{dat} folder. The file \verb+data1985_area2.csv+ contains the features for this problem, along with a column labelled \texttt{id}. This is an identifier for each plot and should {\bf not} be included in your $X$ matrix. The file \verb+theta0list.Rdata+ contains an R list with the initial values of $\theta_{H,p}$ and $\theta_{L,p}$ for each feature. If you are not using R, the same value are contained in the set of 49 CSVs found in \verb+malaria_theta0.zip+. We have also included a CSV containing descriptions of each variable and its levels (\verb+variables_theta0_1985.csv+) for your information.
+
+{\em question 2.1. (15 points)} Write out the log-likelihood for this model. Be sure to specify all relevant variables and watch your subscripts.
+
+{\em question 2.2. (5 points)} Write an function \texttt{ll(G, theta, X)} that computes the log-likelihood derived in 2.1.
+
+{\em question 2.3 (25 points)} Find the MLE for $(G, \Theta)$ using a coordinate ascent approach, maximizing over parameters in the following sequence:
+\begin{enumerate}
+ \item $g_L,n$ for $n=1,\cdots,N$
+ \item $\theta_L,j$ for $j=1,\cdots,J$
+ \item $\theta_H,j$ for $j=1,\cdots,J$
+\end{enumerate}
+This should be implemented as function \texttt{gomMLE(X, G0, theta0)} where \texttt{G0} and \texttt{theta0} are the provided starting values for your iterations. Your function should return a list of the form \texttt{list(G.hat=G.hat, theta.hat=theta.hat, maxlik=maxlik)}, where the first two entries are the MLEs and the last is the maximized likelihood. When running this on the provided data, set G0 to $1/2$ for all plots, and use the provided values for \verb+theta0+.
+
+{\em Note: Your code can assume that the mixture has only two components ($H$ and $L$), but it should not assume that the number of covariates, the number of levels per covariate, or the number of observations is fixed. It should be flexible enough to run on similar data without modification. We will test your code on an independent set of data with different number of plots, features and different covariates.}
+
+\clearpage
+
+{\em computing note.} It is strongly recommended that all students use \texttt{R} for the computing tasks required in this course. We will, however, accept \texttt{MATLAB} or \texttt{Python} code solutions to all assignments. Please note that \textbf{no support, troubleshooting or assistance} will be provided for \texttt{MATLAB} or \texttt{Python} code. Any \texttt{MATLAB} or \texttt{Python} code that produces an incorrect answer is likely to receive less partial credit than similar \texttt{R} code. Please also note that all coding restrictions and guidelines described must also be followed by \texttt{MATLAB} or \texttt{Python} users (with appropriate file extension changes: \texttt{.R} to \texttt{.M} or\texttt{.Py}). In short: if you are an experienced \texttt{MATLAB} or \texttt{Python} user and are confident you can complete the assignments throughout the course, then you are welcome to use \texttt{MATLAB} or \texttt{Python} instead of \texttt{R} (acknowledging all warnings).
+
+{\em what to submit.} Please submit a pdf file with written answers (using latex or word) to all relevant questions and a zip file including all the codes separately via Canvas before 2:35 pm on Wednesday 9/28. Pick a username (lastname\_firstname is recommended) throughout this class and submit a PDF and a ZIP file named as \texttt{username\_ps1.pdf} and \texttt{username\_ps1.ZIP} to Canvas. The ZIP file should contain an \texttt{R} script named as \texttt{username\_ps1.R}. Your \texttt{R} script file must contain all of the functions detailed in {\em 1.4.}, must read the supplied data file, estimate the parameters, and produce the plots, assuming all files are in the same folder. The ZIP file should also contain the PDF file named as \texttt{username\_ps1.pdf}, as well as the TEX or DOC file with the solution, named as \texttt{username\_ps1.tex} or \texttt{username\_ps1.doc}. The latex source of this pset is provided for your convenience. If you have any questions about code formatting and organization then please post your question on \textbf{Discussion} panel in Canvas. Happy coding! 
+
+\textbf{derivations for the simplex example.}
+We define the $d$-dimensional simplex as
+\begin{equation}
+	\mathcal{S}^d = \setof{\vect{u} \in \reals^d \st \vect{u} > \vect{0}, \sum_{i=1}^d u_i < 1}.
+\end{equation}
+Let $\vect{x}$ be a random vector in $\reals^d$ with density function $\pdf[x]{\vect{x}} = \normpdf{\vect{x} \given \vect{\mu},\matr{\Sigma}}$.  Consider the transformation $g \st \reals^d \to \mathcal{S}^d$, where $\vect{u} = g(\vect{x})$ is defined as 
+\begin{equation}
+	u_i = \frac{e^{x_i}}{1 + \sum_{j=1}^{d} e^{x_j}}, \quad
+		x_i = \log\pars{\frac{u_i}{u_{d+1}}},
+\end{equation}
+where $u_{d+1} = 1 - \sum_{j=1}^{d} u_j$.  The density of $\vect{u}$ can be computed by
+\begin{equation} \label{eq:DensityTransformation}
+	\pdf[u]{\vect{u}} = \pdf[x]{g^{-1}\pars{\vect{u}}} J,
+\end{equation}
+where the Jacobian is
+\begin{equation}
+	J = \abs{\det{\matr{J}}}, \quad \matr{J} = \pdiff{\vect{x}}{\vect{u}} = \setof{\pdiff{x_i}{u_j}}.
+\end{equation}
+Assume $i \neq j$.  We compute the elements of the Jacobian matrix as
+\begin{equation}
+	\begin{split}
+		\pdiff{x_i}{u_j} & = \pdiff{}{u_j} \log\pars{\frac{u_i}{u_{d+1}}} \\
+		& = \pars{\frac{u_{d+1}}{u_i}} \pars{\frac{u_{d+1}\cdot 0 - u_i \cdot(-1)}{\pars{u_{d+1}}^2}}
+			= \frac{1}{u_{d+1}}.
+	\end{split}
+\end{equation}
+For the case when $i = j$, the elements of the Jacobian matrix are
+\begin{equation}
+	\begin{split}
+		\pdiff{x_i}{u_j} & = \pdiff{x_i}{u_i} = \pdiff{}{u_i} \log\pars{\frac{u_i}{u_{d+1}}} \\
+		& = \pars{\frac{u_{d+1}}{u_i}} \pars{\frac{u_{d+1}\cdot(1) - u_i \cdot(-1)}{\pars{u_{d+1}}^2}} \\
+		& = \frac{1}{u_i}\pars{1 + \frac{u_i}{u_{d+1}}} \\
+		& = \frac{1}{u_i} + \frac{1}{u_{d+1}}.
+	\end{split}
+\end{equation}
+By these equations, we see that we can express the Jacobian matrix as
+\begin{equation}
+	\matr{J} = \matr{D} + \vect{v}\tp{\vect{v}},
+\end{equation}
+where $\matr{D} = \diag{1/u_1,\dotsc,1/u_d}$ and $\vect{v}$ is a vector with all entries equal to $\pars{u_{d+1}}^{-\frac{1}{2}}$.  By Sylvester's determinant theorem, 
+\begin{equation}
+	\begin{split}
+		\det{\matr{J}} & = \det{(\matr{D} + \vect{v}\tp{\vect{v}})} \\
+		& = \det{(\matr{D})}\pars{1 + \tp{\vect{v}}\inv{\matr{D}}\vect{v}} \\
+		& = \pars{\prod_{i=1}^d \frac{1}{u_i}}\pars{1 + \frac{1}{u_{d+1}}\sum_{j=1}^{d} u_i} \\
+		& = \pars{\prod_{i=1}^d \frac{1}{u_i}}\pars{1 + \frac{1 - u_{d+1}}{u_{d+1}}} \\
+		& = \pars{\prod_{i=1}^d \frac{1}{u_i}}\pars{\frac{1}{u_{d+1}}} = \prod_{i=1}^{d+1} \frac{1}{u_i},
+	\end{split}
+\end{equation}
+and so we have
+\begin{equation}
+	J = \abs{\det{\matr{J}}} = \abs{\prod_{i=1}^{d+1} \frac{1}{u_i}} = \prod_{i=1}^{d+1} \frac{1}{u_i}.
+\end{equation}
+for $\vect{u} > 0$.  Consequently, the probability density function of $\vect{u}$ is 
+\begin{equation}
+	p_u(\vect{u}) = \det{2\pi \matr{\Sigma}}^{-\frac{1}{2}} J \exp
+		\bracks{-\frac{1}{2}\tp{\pars{g^{-1}\pars{\vect{u}}-\vect{\mu}}}
+		\matr{\Sigma}^{-1}\pars{g^{-1}\pars{\vect{u}}-\vect{\mu}}} \\
+\end{equation}
+where $\setof{g^{-1}(\vect{u})}_i = \log\pars{\frac{u_i}{u_{d+1}}}$ and $J = \pars{\prod_{i=1}^{d+1} u_i}^{-1}$.
+
+\end{document}
+
