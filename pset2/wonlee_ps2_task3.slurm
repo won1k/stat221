@@ -8,3 +8,5 @@
 #SBATCH -o out/task3.out           # Standard output
 #SBATCH -e dump/task3.err          # Standard error
 
+module load R/3.2.0-fasrc01
+Rscript wonlee_ps2_task3.R "${SLURM_ARRAY_TASK_ID}"
