@@ -34,7 +34,7 @@ ub.95 = matrix(rep(0, ndat*J), nrow = J)
 start = proc.time()
 for (i in 1:ndat) {
   Y = matrix(c(rpois(J, exp(log.theta)), rpois(J, exp(log.theta))), ncol = N)
-  results = poisson.log.mcmc(Y, w)$logTheta
+  results = poisson.logn.mcmc(Y, w)$logTheta
   post.means[,i] = rowMeans(results)
   post.std[,i] = rowSds(results)
   lb.95[,i] = apply(results, 2, function(x) return(sort(x)[floor(0.025*ndraws)]))
