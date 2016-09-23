@@ -37,8 +37,8 @@ for (i in 1:ndat) {
   results = poisson.logn.mcmc(Y, w)$logTheta
   post.means[,i] = rowMeans(results)
   post.std[,i] = rowSds(results)
-  lb.95[,i] = apply(results, 2, function(x) return(sort(x)[floor(0.025*ndraws)]))
-  ub.95[,i] = apply(results, 2, function(x) return(sort(x)[floor(0.975*ndraws)]))
+  lb.95[,i] = apply(results, 1, function(x) return(sort(x)[floor(0.025*ndraws)]))
+  ub.95[,i] = apply(results, 1, function(x) return(sort(x)[floor(0.975*ndraws)]))
 }
 time = (proc.time() - start)[3]
 print(time)

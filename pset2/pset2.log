@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  21 SEP 2016 11:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  23 SEP 2016 13:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -276,11 +276,11 @@ Package xypdf Info: Line width: 0.39998pt on input line 50.
  [1{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] 
 (./pset2.aux) ) 
 Here is how much of TeX's memory you used:
- 4463 strings out of 493117
- 53060 string characters out of 6135433
+ 4466 strings out of 493117
+ 53099 string characters out of 6135433
  160709 words of memory out of 5000000
- 7715 multiletter control sequences out of 15000+600000
- 11321 words of font info for 50 fonts, out of 8000000 for 9000
+ 7717 multiletter control sequences out of 15000+600000
+ 11489 words of font info for 51 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  34i,5n,31p,3238b,192s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/
@@ -292,11 +292,12 @@ cmmi7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 r10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7
 .pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
 b></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on pset2.pdf (2 pages, 103060 bytes).
+></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><
+/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on pset2.pdf (2 pages, 115007 bytes).
 PDF statistics:
- 51 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
+ 55 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
