@@ -80,7 +80,7 @@ Please see \texttt{wonlee\_ps2\_functions.R} to see the desired function.
 
 \section{Evaluate Coverage (Simple)}
 
-We first started by designing the simulation as requested, with 25 values of $Y$ for each $\theta$ value to start. After some preliminary testing, we found that with the requested parameters, i.e. $J=1000$, $N=2$, and using 25 data points, we required an average system time of ... to perform a simulation for a fixed parameter setting $\mu, \sigma^2$ and for one draw of $\log \theta$. Thus, we decided to 
+We first started by designing the simulation as requested, with 25 values of $Y$ for each $\theta$ value to start. After some preliminary testing, we found that with the requested parameters, i.e. $J=1000$, $N=2$, and using 25 data points, we required an average system time of approximately 900 seconds to perform a simulation for a fixed parameter setting $\mu, \sigma^2$ and for one draw of $\log \theta$. Thus, we estimated that we could run $\approx 44$ such simulations (as a multiple of the number of parameter settings, 4). This meant that we could draw 11 unique values of $\theta$ for each parameter setting, and draw 25 values of $Y$ for each $\theta$ to estimate coverage. While we could have reduced the number of $Y$ draws per $\theta$ to get more draws of $\theta$, we believed that having sufficient data points was prudent to estimate the posterior interval coverage with sufficient precision.
 
 \section{Evaluate Coverage with Exposure Weights}
 
