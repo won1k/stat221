@@ -7,6 +7,7 @@
 library(mvtnorm)
 library(matrixStats)
 source("wonlee_ps2_functions.R")
+source("possonLogN_MCMC.R")
 
 args = commandArgs(trailingOnly=TRUE)
 
