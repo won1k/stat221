@@ -29,7 +29,7 @@ log.thetas = matrix(rep(0, J*nsims), nrow = J)
 coverage.probs = matrix(rep(0, J*nsims), nrow = J)
 runtimes = rep(0, nsims)
 
-for (t = 1:nsims) {
+for (t in 1:nsims) {
   print(t)
   # Simulate theta
   log.thetas[,t] = rnorm(J, mu, sigma)
