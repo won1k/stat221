@@ -23,6 +23,7 @@ ndraws = 1e4
 curr_sim = strtoi(args[1])
 mu = mus[curr_sim]
 sigma = sigmas[curr_sim]
+print(curr_sim)
 
 # Store simulation values
 log.thetas = matrix(rep(0, J*nsims), nrow = J)
@@ -47,14 +48,18 @@ for (t in 1:nsims) {
     lb.95[,i] = apply(results, 1, function(x) return(sort(x)[floor(0.025*ndraws)]))
     ub.95[,i] = apply(results, 1, function(x) return(sort(x)[floor(0.975*ndraws)]))
     for (j in 1:J) {
-      if (log.thetas[j,t] > lb.95[j,i]) & (log.thetas[j,t] < ub.95[j,i]) {
-        cov[j] = cov[j] + 1
+      if (log.thetas[j,t] > lb.95[j,i]) {
+        if (log.thetas[j,t] < ub.95[j,i]) {
+          cov[j] = cov[j] + 1
+        }
       }
     }
   }
   coverage.probs[,t] = cov/ndat
   runtimes[t] = (proc.time() - start)[3]
 }
+print(coverage.probs)
+print(runtimes)
 
 # Plot estimate coverage against log theta
 
