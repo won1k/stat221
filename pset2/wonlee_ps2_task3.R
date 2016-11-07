@@ -17,12 +17,14 @@ sigmas = c(0.7, 1.3, 1.3, 1.6)
 J = 1000
 N = 2
 w = rep(1, J)
-nsims = 11 # Number of theta draws per simulation
-ndat = 25 # Number of data sets per theta
+nsims = 4 # Number of theta draws per simulation
+ndat = 20 # Number of data sets per theta
 ndraws = 1e4
 curr_sim = strtoi(args[1])
 mu = mus[curr_sim]
 sigma = sigmas[curr_sim]
+#print(mu, sigma)
+
 
 # Store simulation values
 log.thetas = matrix(rep(0, J*nsims), nrow = J)
@@ -30,6 +32,7 @@ coverage.probs = matrix(rep(0, J*nsims), nrow = J)
 runtimes = rep(0, nsims)
 
 for (t in 1:nsims) {
+  cat("Par number: ", curr_sim, " Sim number: ", t)
   # Simulate theta
   log.thetas[,t] = rnorm(J, mu, sigma)
   # Run MCMC to obtain posterior
@@ -38,7 +41,6 @@ for (t in 1:nsims) {
   cov = rep(0, J)
   start = proc.time()
   for (i in 1:ndat) {
-    print(i)
     Y = matrix(c(rpois(J, exp(log.thetas[,t])), rpois(J, exp(log.thetas[,t]))), ncol = N)
     results = poisson.logn.mcmc(Y, w)$logTheta
     lb.95[,i] = apply(results, 1, function(x) return(sort(x)[floor(0.025*ndraws)]))
@@ -53,6 +55,7 @@ for (t in 1:nsims) {
   }
   coverage.probs[,t] = cov/ndat
   runtimes[t] = (proc.time() - start)[3]
+  print(runtimes[t])
 }
 # Vectorize log.thetas, coverage.probs
 output = data.frame(as.vector(log.thetas), as.vector(coverage.probs))
