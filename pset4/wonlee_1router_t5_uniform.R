@@ -95,3 +95,8 @@ for (i in 1:c) {
 dev.off()
 
 # Save results
+write.table(X1, file = "wonlee_1router_t5_uniform_X1.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+write.table(X2, file = "wonlee_1router_t5_uniform_X2.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+write.table(lambdas, file = "wonlee_1router_t5_uniform_lambdas.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+
+

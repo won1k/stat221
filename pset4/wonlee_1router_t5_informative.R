@@ -94,5 +94,9 @@ for (i in 1:c) {
 }
 dev.off()
 
-effectiveSize(mcmc_results$X2[3,])
+# Save data
+write.table(X1, file = "wonlee_1router_t5_informative_X1.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+write.table(X2, file = "wonlee_1router_t5_informative_X2.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+write.table(lambdas, file = "wonlee_1router_t5_informative_lambdas.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+
 
