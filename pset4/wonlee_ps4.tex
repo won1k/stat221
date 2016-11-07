@@ -1,0 +1,80 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+%--------Meta Data: Fill in your info------
+\title{Problem Set 4 \\ STAT 221}
+
+\author{Won I. Lee}
+
+%\date{July 30, 2016}
+
+
+\begin{document}
+	
+\maketitle
+
+\section{Implement MCMC}
+
+Please see the file \texttt{wonlee\_mcmc.R} for the relevant implementation, according to the specifications provided.
+
+\section{Uniform Prior for Time Point 5}
+
+Using data from time point 5 only, we use a uniform prior over $\Lambda$ and use 10 chains of MCMC with 12000 iterations (with 2000 iterations of burn-in) to conduct inference. {\bf Figure 1} demonstrates our convergence diagnostics for each of the dimensions of $X_2$ (which is actually sampled using MCMC, whereas $X_1$ is computed from $X_2$), using each of the 10 chains.
+
+We initially employed a Poisson proposal scheme as outlined in Tebaldi and West (1998), i.e. using independent draws:
+$$X_i^* \sim Pois(\lambda_{i,t})$$
+but this appeared to yield terrible results in terms of sample size, with ESS statistics of $\approx 5$ over 10000 samples. As a result, in the spirit of incremental MCMC moves as discussed in this course, we opted for a small uniform proposal density around the current $X_i$ value, namely:
+$$X_i^* \sim Unif(X_{i,t-1} - \alpha, X_{i,t-1} + \alpha)$$
+for some suitable value of $\alpha$.
+
+\section{Informative Prior for Time Point 5}
+
+\section{Boxplots for Different Priors}
+
+\section{Uniform Prior for All Time Points}
+
+\section{Informative Prior for All Time Points}
+
+\section{Comparison of Posterior Intervals}
+
+\end{document}
+
+

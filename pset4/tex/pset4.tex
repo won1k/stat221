@@ -1,0 +1,197 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{epstopdf}
+\usepackage{url}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\usepackage[pdftex,colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,bookmarks=false,pdfpagemode=None]{hyperref}
+\usepackage{fancyhdr}
+
+\parindent0pt  % to stop indenting paragraphs
+\parskip2.5ex  % to insert vertical space between paragraphs
+
+\pagestyle{fancy}
+\headheight 35pt 
+\lhead{\sc stat-221/fall-16}
+\chead{}
+\rhead{\sc airoldi/hu}
+\rfoot{}
+\cfoot{\thepage}
+\lfoot{}
+\renewcommand{\headrulewidth}{0pt} %{0.4pt}
+\renewcommand{\footrulewidth}{0pt} %{0.4pt}
+
+\newcommand{\xs}{$x_{1:k}$ }
+\newcommand{\rn}{$\mathbb{R}^n$ }
+\newcommand{\eqdef}{\triangleq}
+\renewcommand{\P}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\var}[1]{\mathrm{V}\left(#1\right)}
+\newcommand{\cov}[1]{\mathrm{C}\left(#1\right)}
+\newcommand{\corr}[1]{\mathrm{Corr}\left(#1\right)}
+\newcommand{\N}[3]{\mathcal{N}_{#1}\left(#2, #3\right)}
+\newcommand{\Wish}[3]{\mathrm{Wish}_{#1}\left(#2, #3\right)}
+\renewcommand{\b}[1]{\vec{#1}}
+\newcommand{\tr}[1]{\mathrm{tr}\left(#1\right)}
+\newcommand{\diag}[1]{\mathrm{diag}\left(#1\right)}
+\newcommand{\ip}[2]{\left(#1 , #2 \right)}
+\newcommand{\pars}[1]{\left(#1\right)}
+\newcommand{\reals}{\mathbb{R}}  % Real numbers
+\newcommand{\vect}[1]{\vec{#1}}  % Vector
+\newcommand{\setof}[1]{\left\{#1\right\}}  % Set of elements
+\newcommand{\st}{:}  % Such that
+\newcommand{\pdf}{p}  % Probability density function
+\newcommand{\cdf}{P}  % Cumulative distribution function
+\newcommand{\ccdf}{\bar{P}}  % Complementary CDF
+\newcommand{\lhood}{\mathcal{L}}  % Likelihood function
+\newcommand{\normpdf}{\mathcal{N}}  % Normal (Gaussian) PDF
+\newcommand{\unifpdf}{\mathcal{U}}  % Uniform PDF
+\newcommand{\betapdf}{\textup{\textrm{Beta}}}  % Beta PDF
+\newcommand{\gampdf}{\textup{\textrm{Gamma}}}  % Beta PDF
+\newcommand{\wishpdf}{\mathcal{W}}  % Wishart PDF
+\newcommand{\given}{\,\left.\right|\,}  % Given (default size)
+\newcommand{\giveni}{\,\bigl.\bigr|\,}  % Given (small delimiter)
+\newcommand{\givenii}{\,\Bigl.\Bigr|\,}  % Given (medium delimiter)
+\newcommand{\giveniii}{\,\biggl.\biggr|\,}  % Given (large delimiter)
+\newcommand{\giveniv}{\,\Biggl.\Biggr|\,}  % Given (extra large delimiter)
+\newcommand{\matr}[1]{#1}  % Matrix
+\newcommand{\abs}[1]{\left|#1\right|}  % Absolute value
+\newcommand{\pdiff}[2]{\frac{\partial #1}{\partial #2}}  % Partial derivative
+\newcommand{\tp}[1]{#1^T}  % Matrix transpose
+\newcommand{\indfun}{\mathbb{I}}  % Indicator function
+\newcommand{\inv}[1]{{#1}^{-1}}  % Inverse
+\newcommand{\bracks}[1]{\left[#1\right]}  % Shortcut for brackets
+\newcommand{\bracksi}[1]{\bigl[#1\bigr]}  % Shortcut for brackets (small delimiter)
+\newcommand{\bracksii}[1]{\Bigl[#1\Bigr]}  % Shortcut for brackets (medium delimiter)
+\newcommand{\bracksiii}[1]{\biggl[#1\biggr]}  % Shortcut for brackets (large delimiter)
+\newcommand{\bracksiv}[1]{\Biggl[#1\Biggr]}  % Shortcut for brackets (extra large delimiter)
+
+\begin{document}
+\centerline{\textbf{problem set no. 4~---~due wednesday 11/9 before class starts}}
+\textbf{problem 1.}
+the task is to implement the model in Tebaldi \& West (JASA, 1998). 
+
+{\em goals.} the goals of this pset are for you to get familiar with derivations and implementation issues of MCMC algorithms that arise in the context of an ill-posed inverse problem, to become further acquainted with convergence diagnostics, to see an example of informative prior distributions and their impact, and to design a simple framework for simultaneous MCMC simulations across many datasets.
+
+%% background
+
+{\em problem background.} in a communication network, routers and switches connect subnetworks of users. we can measure traffic (packet counts) on ingoing and outgoing links at each router, every five minutes. these measurements are referred to as {\em link loads}. we want to infer the traffic on all the possible origin-destination (OD) routes, every 5 minutes. these non-observable quantities of interest are referred to as {\em OD  flows}. in this setting, the number of link loads at each time $t$ is smaller than the number of corresponding OD flows.
+
+%{\em question 1.1. (20 point)} 
+%%
+%replicate the illustration in Section 3.2 and the corresponding figures 4 and 5. (include axis labels.) the network is given in figure 1, the data  in figure 2.
+
+{\em question 1.1 (20 point)}
+%
+implement the MCMC algorithm described in section 3.1 of Tebaldi \& West. see the specifications at the end of the problem set for more details on the implementation.
+
+{\em question 1.2 (15 point)} 
+%
+recall the router1 data from pset 4 -- in this problem you are asked to fit the model of Tebaldi \& West to the data from time point 5 only. you should use a uniform prior for the $\lambda$'s and run 10 chains to perform the analysis. results from the 10 chains should be combined to produce all plots and summary statistics as follows:
+\begin{itemize}
+\item Compute a selection of MCMC convergence diagnostics, possibly numeric or graphical, and briefly discuss the results. Examples include autocorrelations (\texttt{acf}), effective sample-size (\texttt{effectiveSize}), and Gelman-Rubin statistic (\texttt{gelman.diag})).
+\item Plot marginal posterior histograms of the $x$'s on the same plot (the same format as Tebaldi \& West's Figure 5)
+\item Plot marginal posterior densities of the $\lambda$'s (it is recommend to use \texttt{densplot} in \texttt{library(coda)} to produce these)
+\end{itemize}
+Note: This job does not need to be run on Odyssey (although it is fine if you do).  
+
+{\em question 1.3 (15 point)} 
+%
+for the router1 data, time point 5, we now investigate the impact of the choice of prior distribution. perform the MCMC analysis as in question 1.1, but this time use an informative informative in the style of Tebaldi \& West. To mimic the online-updating, as described at the bottom of pg 566, you should use the following priors:
+\begin{equation}\label{prior}
+\lambda_{i} \sim \textrm{Gamma}\left(aX_{i}^{(t-1)},a\right) ,
+\end{equation}
+where the prior centered at the known true value from the previous time-point (time-point 4 in this case), but the variance is inflated by a factor of $1/a$ to stop the prior having too much influence. As in Tebaldi \& West, set $a=0.02$ (thus inflating the prior variance by a factor of 50). again, run 10 chains to perform the analysis and combine results. produce the output as above.
+
+Note: This job does not need to be run on Odyssey (although it is fine if you do).  
+
+{\em question 1.4 (10 point)}
+%
+Produce a side-by-side boxplot of the marginal posterior densities using the uniform and the informative priors, as in Figure 11 of Tebaldi \& West. Comment on any differences you see, and explain possible reasons for these differences.
+
+{\em question 1.5 (15 point)} 
+%
+Now, we apply the model of Tebaldi \& West to each time-point (excluding time 1) of router 1 dataset using a uniform prior for the $\lambda$'s. The analysis for each time-point does not depend on the other times. For each time-point, after the MCMC analysis has completed, you will need to:
+\begin{enumerate}
+\item Compute the marginal posterior median, $2.5$th and $97.5$th percentile for all of the $x$'s and $\lambda$'s. (this can be done immediately by computing \texttt{summary(foo)\$quantiles} for an \texttt{mcmc} object). Write these values to individual files and then combine them (you may like the \texttt{Unix} command \texttt{cat}). 
+\item Plot the posterior $95\%$ interval for the $x$'s and $\lambda$'s over time.
+\end{enumerate}
+Note that this problem should only require a very small modification of your existing code to run the analysis (a few more lines to do the plots). Each time-point should be executed on a different Odyssey job (or subjob). Again, run 10 chains for each time-point -- these can either be run within the same Odyssey job, or split up into more subjobs (it is recommend to do the 10 chains sequentially within the same job). All jobs must go to either the \texttt{short\_serial} or \texttt{normal\_serial} queues.
+
+{\em question 1.6 (15 point)}
+Finally, use the true values for the previous time-points to form informative priors for the model as in equation \eqref{prior}. Run the same analysis as in question 1.4, the only change being the prior parameters. Again, this should require only trivial modification to the code you have already written. again, produce the $95\%$ intervals plotted against time.
+
+{\em question 1.7 (10 point)} 
+%
+Compare the posterior intervals over time with and without the informative prior. Again, discuss any differences and provide plausible explanations for them. Over the last two problem sets, which approach do you like the most?
+
+{\em Note: Part of the analysis you will perform for Questions 1.4 and 1.5 is identical to what you did for Questions 1.2 and 1.3, so this pset essentially boils down to 1.4 and 1.5 only. However, we recommend that you test and validate your code for single time points first (you could also use the toy example of section 3.2 to do this).}
+
+{\bf{\em question 1.8 (extra credit)}}
+%
+apply the model of Tebaldi \& West to the link loads in file {\tt 2router\_linkcount.dat}. you may use any prior for this problem. compare in a figure: these estimates, the estimates for $x_t$ you get with your favorite model variant implemented for pset 4. again, discuss what you see and why.
+
+%% Odyssey details
+
+\bigskip
+\centerline{*\hspace{3pt}*\hspace{3pt}*}
+
+
+%% what to submit
+
+
+{\em what to submit.} 
+%
+submit 1 zip file. the zip file should contain: the \texttt{R} and \texttt{lsf} scripts to run your MCMC computations on Odyssey (7-12 files); the figures described; a latex (or word) document with your answers to the questions (1 file).
+
+{\em please read the following instructions carefully and make sure your submission conforms to the guidelines. this is a computing exercise; if your code does not run it's a problem. any submitted homeworks that do not conform to the specifications will lose points.}
+
+please submit written answers (using latex or word) to all relevant questions on Canvas before 2:35 pm on Wednesday 11/9. Upload a separate PDF file named as \texttt{myfasusername\_ps4.pdf} and a ZIP file named as \texttt{myfasusername\_ps4.ZIP} to Canvas (where \texttt{myfasusername} is replaced by your actual FAS username). the ZIP file should contain three \texttt{R} scripts:
+\begin{enumerate}
+\item \texttt{myfasusername\_mcmc.R}, 
+\item \texttt{myfasusername\_1router\_t5\_uniform.R},
+\item \texttt{myfasusername\_1router\_t5\_informative.R},
+\item \texttt{myfasusername\_1router\_all\_times\_uniform.R},
+\item \texttt{myfasusername\_1router\_all\_times\_informative.R}, and,
+\item \texttt{myfasusername\_2router.R}, (optional)
+\end{enumerate}
+and your SLURM scripts:
+\begin{enumerate}
+\item[7.] \texttt{myfasusername\_1router\_t5\_uniform.slurm}, (optional)
+\item[8.] \texttt{myfasusername\_1router\_t5\_informative.slurm}, (optional)
+\item[9.] \texttt{myfasusername\_1router\_all\_times\_uniform.slurm},
+\item[10.] \texttt{myfasusername\_1router\_all\_times\_informative.slurm}, and,
+\item[11.] \texttt{myfasusername\_2router.slurm}. (optional)
+\end{enumerate}
+your scripts must run on Odyssey and produce the plots as described above, \textbf{as always, assuming all input/output files are in the same folder}. 
+\begin{itemize}
+\item the file \texttt{myfasusername\_mcmc.R} should contain the function used to fit the MCMC algorithm to all datasets. this function must be named and have the following required arguments (although extra arguments are permitted):
+\begin{verbatim}
+network_mcmc <- function(Y,A,prior,iter=1.2e5,burnin=2e4,verbose=FALSE){ 
+  # Write the function 
+}
+\end{verbatim}
+If switched on, the \texttt{verbose} argument should print out useful progress updates to help you debug your algorithm. Make sure to write this into your code -- with comments -- as you go, not just when it breaks!
+\item The application to each dataset (or time-point) should just involve some initial code to set-up the model inputs, then a simple call to \texttt{network\_mcmc}, and finally, some additional lines of code to plot the graphs.
+\item You may want to consider returning your output from \texttt{network\_mcmc} directly as an \texttt{mcmc} object, using \texttt{library(coda)}, although this is not required.
+\item the file \texttt{myfasusername\_mcmc.R} should be loaded in using:
+\begin{verbatim}
+source('myfasusername_mcmc.R')
+\end{verbatim}
+\item the figures should be named after the corresponding dataset and prior choice as follows:
+\begin{enumerate}
+\item \texttt{myfasusername\_1router\_t5\_uniform\_*.pdf}, 
+\item \texttt{myfasusername\_1router\_t5\_informative\_*.pdf},
+\item \texttt{myfasusername\_1router\_all\_times\_uniform\_*.pdf}, 
+\item \texttt{myfasusername\_1router\_all\_times\_informative\_*.pdf},
+\item \texttt{myfasusername\_2router\_*.pdf} (extra credit only).
+\end{enumerate}
+the \texttt{*} denotes a \texttt{Unix} wildcard i.e., you can put any text you like wherever you see one.
+\item the TEX or DOC file with the solution, named as \texttt{myfasusername\_ps4.tex} or \texttt{myfasusername\_ps4.doc}
+\end{itemize}
+as always, the latex source of this pset is provided for your convenience. if you have any questions about code formatting and organization then please ask Zhirui. happy coding! 
+
+\end{document}
+

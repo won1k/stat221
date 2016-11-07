@@ -80,7 +80,15 @@ Please see \texttt{wonlee\_ps2\_functions.R} to see the desired function.
 
 \section{Evaluate Coverage (Simple)}
 
-We first started by designing the simulation as requested, with 25 values of $Y$ for each $\theta$ value to start. After some preliminary testing, we found that with the requested parameters, i.e. $J=1000$, $N=2$, and using 25 data points, we required an average system time of approximately 900 seconds to perform a simulation for a fixed parameter setting $\mu, \sigma^2$ and for one draw of $\log \theta$. Thus, we estimated that we could run $\approx 44$ such simulations (as a multiple of the number of parameter settings, 4). This meant that we could draw 11 unique values of $\theta$ for each parameter setting, and draw 25 values of $Y$ for each $\theta$ to estimate coverage. While we could have reduced the number of $Y$ draws per $\theta$ to get more draws of $\theta$, we believed that having sufficient data points was prudent to estimate the posterior interval coverage with sufficient precision.
+We first started by designing the simulation as requested, with 50 values of $Y$ for each $\theta$ value to start. After some preliminary testing, we found that with the requested parameters, i.e. $J=1000$, $N=2$, and using 50 data points, we required an average system time of approximately 1200 seconds to perform a simulation for a fixed parameter setting $\mu, \sigma^2$ and for one draw of $\log \theta$. Thus, we estimated that we could run $\approx 3$ such simulations in 1 hour of clock time. Thus, in each job we do the following.
+\begin{enumerate}
+\item Draw 3 values of $\theta$ (for $J = 1000$).
+\item Draw 50 values of $Y$ (for $J = 1000, N = 2$).
+\item Run MCMC to obtain posterior samples.
+\item Compute the lower/upper bounds for our confidence interval.
+\item Compute the number of times each $\theta$ value is in the interval.
+\end{enumerate}
+We do this for 5 times for each set of parameter values (4), resulting in 20 jobs that yield 15 draws of $\theta$ for each parameter setting and 50 draws of $Y$ for each $\theta$.
 
 \section{Evaluate Coverage with Exposure Weights}
 
