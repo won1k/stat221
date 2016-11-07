@@ -94,4 +94,4 @@ for (i in 1:c) {
 }
 dev.off()
 
-effectiveSize(mcmc_results$X2[3,])
+# Save results

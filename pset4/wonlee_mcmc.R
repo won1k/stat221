@@ -18,9 +18,9 @@ accept_prob = function(Y, A1, A2, currX2, propX2, lambdas, i) {
   log.accept = dpois(round(currX2[i-r]), lambdas[i], log = TRUE) - dpois(propX2[i-r], lambdas[i], log = TRUE)
   #log.accept = 0
   log.accept = log.accept + log.stirling(currX2[i-r]) - log.stirling(propX2[i-r])
-  log.accept = log.accept + (propX2[i-r] - currX2[i-r]) * log(lambdas[i])
+  log.accept = log.accept + (propX2[i-r] - currX2[i-r] + 1e-20) * log(lambdas[i])
   for (j in 1:r) {
-    log.accept = log.accept + (propX1[j] - currX1[j]) * log(lambdas[j]) +
+    log.accept = log.accept + (propX1[j] - currX1[j] + 1e-20) * log(lambdas[j]) +
       log.stirling(currX1[j]) - log.stirling(propX1[j])
   }
   return(exp(log.accept))
@@ -50,8 +50,7 @@ network_mcmc = function(Y, A, prior, iter = 1.2e5, burnin = 2e4, verbose = FALSE
     a = 0.02
     X = read.csv("1router_allcount.dat", header = TRUE)[76:91,"value"]
     X = X[qr(A)$pivot]
-    lambs[1:r,1] = rgamma(r, a*X[0:r], scale = a)
-    lambs[(r+1):c,1] = rgamma(c-r, a*X[(r+1):c], scale = a)
+    lambs[,1] = rgamma(c, a*X[1:c], scale = a) + 1e-10
   } else {
     lambs[,1] = runif(c, 0, max(Y)/16)
   }
@@ -69,11 +68,11 @@ network_mcmc = function(Y, A, prior, iter = 1.2e5, burnin = 2e4, verbose = FALSE
     }
     # Draw lambdas
     if (prior == "uniform") {
-      lambs[1:r,t] = rgamma(r, X1[,t-1]+1)
-      lambs[(r+1):c,t] = rgamma(c-r, X2[,t-1]+1)
+      lambs[1:r,t] = rgamma(r, X1[,t-1]+1, scale = 2)
+      lambs[(r+1):c,t] = rgamma(c-r, X2[,t-1]+1, scale = 2)
     } else {
-      lambs[1:r,t] = rgamma(r, a*X[1:r] + X1[,t-1], scale = a)
-      lambs[(r+1):c,t] = rgamma(c-r, a*X[(r+1):c] + X2[,t-1], scale = a)
+      lambs[1:r,t] = rgamma(r, a*X[1:r] + X1[,t-1], scale = 1 + a)
+      lambs[(r+1):c,t] = rgamma(c-r, a*X[(r+1):c] + X2[,t-1], scale = 1 + a)
     }
     #print(lambs[,t])
     
