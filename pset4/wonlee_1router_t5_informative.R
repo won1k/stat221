@@ -45,24 +45,24 @@ for (i in 1:(c-r)){
 }
 
 # ESS
-png(paste("wonlee_1router_t5_informative_ess.png",sep=""))
-heights = rep(0,c)
-for (i in 1:c) {
-  if (i <= r) {
-    x = X1[i,]
-    for (j in 2:10) {
-      x = c(x, X1[(j-1)*r+i,])
-    }
-  } else {
-    x = X2[i-r,]
-    for (j in 2:10) {
-      x = c(x, X2[(j-1)*(c-r)+i-r,])
-    }
-  }
-  heights[i] = effectiveSize(x)
-}
-barplot(heights, names.arg = 1:c)
-dev.off()
+#png(paste("wonlee_1router_t5_informative_ess.png",sep=""))
+#heights = rep(0,c)
+#for (i in 1:c) {
+#  if (i <= r) {
+#    x = X1[i,]
+#    for (j in 2:10) {
+#      x = c(x, X1[(j-1)*r+i,])
+#    }
+#  } else {
+#    x = X2[i-r,]
+#    for (j in 2:10) {
+#      x = c(x, X2[(j-1)*(c-r)+i-r,])
+#    }
+#  }
+#  heights[i] = effectiveSize(x)
+#}
+#barplot(heights, names.arg = 1:c)
+#dev.off()
 
 # Plots (Marginals)
 png(paste("wonlee_1router_t5_informative_marginals.png",sep=""))
