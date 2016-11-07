@@ -5,7 +5,6 @@
 # Command line args
 args = commandArgs(trailingOnly = TRUE)
 t = as.numeric(args[1])
-print(t)
 
 # Load data/MCMC
 source("wonlee_mcmc.R")
@@ -21,7 +20,7 @@ idx2 = qr(A)$pivot[(r+1):c]
 A2 = A[,idx2]
 
 # Run MCMC (10 chains)
-prior = "uniform"
+prior = "informative"
 iter = 1.2e5
 burnin = 2e4
 X1 = matrix(rep(0, 10*r*(iter-burnin)), ncol = 10*(iter-burnin))
@@ -44,9 +43,10 @@ colnames(l) = c("2.5","97.5")
 
 
 # Save results
-write.table(q1, file = paste("wonlee_1router_t", t, "_uniform_X1_quantiles.csv", sep=""), sep = ",", row.names = FALSE, col.names = FALSE)
-write.table(q2, file = paste("wonlee_1router_t", t, "_uniform_X2_quantiles.csv", sep=""), sep = ",", row.names = FALSE, col.names = FALSE)
-write.table(l, file = paste("wonlee_1router_t", t, "_uniform_lambda_quantiles.csv", sep=""), sep = ",", row.names = FALSE, col.names = FALSE)
+write.table(q1, file = paste("wonlee_1router_t", t, "_informative_X1_quantiles.csv", sep=""), sep = ",", row.names = FALSE, col.names = FALSE)
+write.table(q2, file = paste("wonlee_1router_t", t, "_informative_X2_quantiles.csv", sep=""), sep = ",", row.names = FALSE, col.names = FALSE)
+write.table(l, file = paste("wonlee_1router_t", t, "_informative_lambda_quantiles.csv", sep=""), sep = ",", row.names = FALSE, col.names = FALSE)
+
 
 
 
