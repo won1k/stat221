@@ -1,3 +1,4 @@
+#!/usr/bin/env Rscript
 # Problem Set 4
 # Won Lee
 
