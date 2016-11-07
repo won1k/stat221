@@ -31,7 +31,7 @@ for (i in 1:10) {
 # Plots (Diagnostics)
 # ACF
 for (i in 1:(c-r)){
-  png(paste("wonlee_1router_t7_uniform_acf_",i,".png",sep=""))
+  png(paste("wonlee_1router_t5_uniform_acf_",i,".png",sep=""))
   x = acf(X2[i,], plot = FALSE)$lag
   mcmc_acf = acf(X2[i,], plot = FALSE)$acf
   plot(x, mcmc_acf, main = paste("X2[",i,"]", sep = ""), type = "l", xlab = "Lag", ylab = "ACF",
@@ -44,7 +44,7 @@ for (i in 1:(c-r)){
 }
 
 # ESS
-png(paste("wonlee_1router_t7_uniform_ess.png",sep=""))
+png(paste("wonlee_1router_t5_uniform_ess.png",sep=""))
 heights = rep(0,c)
 for (i in 1:c) {
   if (i <= r) {
@@ -64,7 +64,7 @@ barplot(heights, names.arg = 1:c)
 dev.off()
 
 # Plots (Marginals)
-png(paste("wonlee_1router_t7_uniform_marginals.png",sep=""))
+png(paste("wonlee_1router_t5_uniform_marginals.png",sep=""))
 par(mfrow = c(4,4))
 for (i in 1:c) {
   if (i <= r) {
@@ -82,7 +82,7 @@ for (i in 1:c) {
 }
 dev.off()
 
-png(paste("wonlee_1router_t7_uniform_densities.png",sep=""))
+png(paste("wonlee_1router_t5_uniform_densities.png",sep=""))
 par(mfrow = c(4,4))
 for (i in 1:c) {
   lamb = lambdas[i,]
