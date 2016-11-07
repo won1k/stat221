@@ -26,7 +26,7 @@ accept_prob = function(Y, A1, A2, currX2, propX2, lambdas, i) {
   return(exp(log.accept))
 }
 
-network_mcmc = function(Y, A, prior, iter = 1.2e5, burnin = 2e4, verbose = FALSE) {
+network_mcmc = function(Y, A, prior, iter = 1.2e5, burnin = 2e4, verbose = FALSE, t) {
   # QR to find indices
   if (verbose) {
     print("Performing QR to find indices")
@@ -48,14 +48,14 @@ network_mcmc = function(Y, A, prior, iter = 1.2e5, burnin = 2e4, verbose = FALSE
   # Setup if informative
   if (prior == "informative") {
     a = 0.02
-    X = read.csv("1router_allcount.dat", header = TRUE)[76:91,"value"]
+    X = read.csv("1router_allcount.dat", header = TRUE)[(25*(t-2)+1):(25*(t-2)+16),"value"]
     X = X[qr(A)$pivot]
     lambs[,1] = rgamma(c, a*X[1:c], scale = a) + 1e-10
   } else {
     lambs[,1] = runif(c, 0, max(Y)/16)
   }
-  X2[,1] = read.csv("1router_allcount.dat", header = TRUE)[100+idx2,"value"] + 0.1
-  X1[,1] = read.csv("1router_allcount.dat", header = TRUE)[100+idx1,"value"] + 1e-5
+  X2[,1] = read.csv("1router_allcount.dat", header = TRUE)[25*(t-1)+idx2,"value"] + 0.1
+  X1[,1] = read.csv("1router_allcount.dat", header = TRUE)[25*(t-1)+idx1,"value"] + 1e-5
   
   # MCMC
   if (verbose) {

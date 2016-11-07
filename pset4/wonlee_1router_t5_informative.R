@@ -23,7 +23,7 @@ X1 = matrix(rep(0, 10*r*(iter-burnin)), ncol = iter-burnin)
 X2 = matrix(rep(0, 10*(c-r)*(iter-burnin)), ncol = iter-burnin)
 lambdas = matrix(rep(0, 10*c*(iter-burnin)), ncol = iter-burnin)
 for (i in 1:10) {
-  mcmc_results = network_mcmc(Y, A, prior, iter, burnin, TRUE)
+  mcmc_results = network_mcmc(Y, A, prior, iter, burnin, TRUE, 5)
   X1[(r*(i-1)+1):(r*i),] = mcmc_results$X1
   X2[((c-r)*(i-1)+1):((c-r)*i),] = mcmc_results$X2
   lambdas[(c*(i-1)+1):(c*i),] = mcmc_results$lambda
@@ -88,7 +88,7 @@ par(mfrow = c(4,4))
 for (i in 1:c) {
   lamb = lambdas[i,]
   for (j in 2:10) {
-    lamb = c(x, lamb[(j-1)*c+i,])
+    lamb = c(x, lambdas[(j-1)*c+i,])
   }
   hist(lamb, main = "", ylab = "", xlab = paste("Lambda", i))
 }
