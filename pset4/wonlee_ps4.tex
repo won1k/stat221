@@ -61,9 +61,13 @@ Using data from time point 5 only, we use a uniform prior over $\Lambda$ and use
 
 We employed a Poisson proposal scheme as outlined in Tebaldi and West (1998), i.e. using independent draws:
 $$X_i^* \sim Pois(\lambda_{i,t})$$
-Our diagnostics results are given in {\bf Figure 1}, where we display ACF plots for all 10 chains, as well as effective sample sizes for all $X$ values across all chains (i.e. each $X_i$ has 1200000 samples).
+Our diagnostics results are given in {\bf Figure 1}, where we display ACF plots for all 10 chains, as well as effective sample sizes (ESS) for all $X$ values across all chains (i.e. each $X_i$ has 1200000 samples). We see that convergence is not optimal, i.e. there is very strong correlation across time lags, and the ESS of each $X$ value is rather small compared to the total number of samples.
+
+We also display our marginals of $X$ in {\bf Figure 2} as well as the posterior densities of $\Lambda$ in {\bf Figure 3}. 
 
 \section{Informative Prior for Time Point 5}
+
+
 
 \section{Boxplots for Different Priors}
 
