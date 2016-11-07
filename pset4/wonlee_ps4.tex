@@ -57,13 +57,11 @@ Please see the file \texttt{wonlee\_mcmc.R} for the relevant implementation, acc
 
 \section{Uniform Prior for Time Point 5}
 
-Using data from time point 5 only, we use a uniform prior over $\Lambda$ and use 10 chains of MCMC with 12000 iterations (with 2000 iterations of burn-in) to conduct inference. {\bf Figure 1} demonstrates our convergence diagnostics for each of the dimensions of $X_2$ (which is actually sampled using MCMC, whereas $X_1$ is computed from $X_2$), using each of the 10 chains.
+Using data from time point 5 only, we use a uniform prior over $\Lambda$ and use 10 chains of MCMC with 120000 iterations (with 20000 iterations of burn-in) to conduct inference. {\bf Figure 1} demonstrates our convergence diagnostics for each of the dimensions of $X_2$ (which is actually sampled using MCMC, whereas $X_1$ is computed from $X_2$), using each of the 10 chains.
 
-We initially employed a Poisson proposal scheme as outlined in Tebaldi and West (1998), i.e. using independent draws:
+We employed a Poisson proposal scheme as outlined in Tebaldi and West (1998), i.e. using independent draws:
 $$X_i^* \sim Pois(\lambda_{i,t})$$
-but this appeared to yield terrible results in terms of sample size, with ESS statistics of $\approx 5$ over 10000 samples. As a result, in the spirit of incremental MCMC moves as discussed in this course, we opted for a small uniform proposal density around the current $X_i$ value, namely:
-$$X_i^* \sim Unif(X_{i,t-1} - \alpha, X_{i,t-1} + \alpha)$$
-for some suitable value of $\alpha$.
+Our diagnostics results are given in {\bf Figure 1}, where we display ACF plots for all 10 chains, as well as effective sample sizes for all $X$ values across all chains (i.e. each $X_i$ has 1200000 samples).
 
 \section{Informative Prior for Time Point 5}
 

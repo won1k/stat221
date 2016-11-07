@@ -17,8 +17,8 @@ A2 = A[,idx2]
 
 # Run MCMC (10 chains)
 prior = "uniform"
-iter = 1.2e4
-burnin = 2e3
+iter = 1.2e5
+burnin = 2e4
 X1 = matrix(rep(0, 10*r*(iter-burnin)), ncol = iter-burnin)
 X2 = matrix(rep(0, 10*(c-r)*(iter-burnin)), ncol = iter-burnin)
 lambdas = matrix(rep(0, 10*c*(iter-burnin)), ncol = iter-burnin)
