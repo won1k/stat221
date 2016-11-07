@@ -19,26 +19,26 @@ A2 = A[,idx2]
 prior = "informative"
 iter = 1.2e5
 burnin = 2e4
-X1 = matrix(rep(0, 10*r*(iter-burnin)), ncol = iter-burnin)
-X2 = matrix(rep(0, 10*(c-r)*(iter-burnin)), ncol = iter-burnin)
-lambdas = matrix(rep(0, 10*c*(iter-burnin)), ncol = iter-burnin)
+X1 = matrix(rep(0, 10*r*(iter-burnin)), ncol = 10*(iter-burnin))
+X2 = matrix(rep(0, 10*(c-r)*(iter-burnin)), ncol = 10*(iter-burnin))
+lambdas = matrix(rep(0, 10*c*(iter-burnin)), ncol = 10*(iter-burnin))
 for (i in 1:10) {
   mcmc_results = network_mcmc(Y, A, prior, iter, burnin, TRUE, 5)
-  X1[(r*(i-1)+1):(r*i),] = mcmc_results$X1
-  X2[((c-r)*(i-1)+1):((c-r)*i),] = mcmc_results$X2
-  lambdas[(c*(i-1)+1):(c*i),] = mcmc_results$lambda
+  X1[,((iter-burnin)*(i-1)+1):((iter-burnin)*i)] = mcmc_results$X1
+  X2[,((iter-burnin)*(i-1)+1):((iter-burnin)*i)] = mcmc_results$X2
+  lambdas[,((iter-burnin)*(i-1)+1):((iter-burnin)*i)] = mcmc_results$lambda
 }
 
 # Plots (Diagnostics)
 # ACF
 for (i in 1:(c-r)){
   png(paste("wonlee_1router_t5_informative_acf_",i,".png",sep=""))
-  x = acf(X2[i,], plot = FALSE)$lag
-  mcmc_acf = acf(X2[i,], plot = FALSE)$acf
+  x = acf(X2[i,1:(iter-burnin)], plot = FALSE)$lag
+  mcmc_acf = acf(X2[i,1:(iter-burnin)], plot = FALSE)$acf
   plot(x, mcmc_acf, main = paste("X2[",i,"]", sep = ""), type = "l", xlab = "Lag", ylab = "ACF",
        ylim = c(0.8,1))
   for (j in 2:10) {
-    mcmc_acf = acf(X2[(c-r)*(j-1)+i,], plot = FALSE)$acf
+    mcmc_acf = acf(X2[i,((iter-burnin)*(j-1)+1):((iter-burnin)*j)], plot = FALSE)$acf
     lines(x, mcmc_acf, col = j)
   }
   dev.off()
@@ -70,33 +70,31 @@ par(mfrow = c(4,4))
 for (i in 1:c) {
   if (i <= r) {
     x = X1[i,]
-    for (j in 2:10) {
-      x = c(x, X1[(j-1)*r+i,])
-    }
   } else {
     x = X2[i-r,]
-    for (j in 2:10) {
-      x = c(x, X2[(j-1)*(c-r)+i-r,])
-    }
   }
   hist(x, main = paste("X",i,sep=""))
 }
 dev.off()
 
+# Density
 png(paste("wonlee_1router_t5_informative_densities.png",sep=""))
 par(mfrow = c(4,4))
 for (i in 1:c) {
   lamb = lambdas[i,]
-  for (j in 2:10) {
-    lamb = c(x, lambdas[(j-1)*c+i,])
-  }
-  hist(lamb, main = "", ylab = "", xlab = paste("Lambda", i))
+  plot(density(lamb), main = "", ylab = "", xlab = paste("Lambda", i))
 }
 dev.off()
 
+# Boxplots
+df = data.frame(t(X1),t(X2))
+png("wonlee_1router_t5_informative_boxplot.png")
+boxplot(df, use.cols = TRUE, horizontal = TRUE)
+dev.off()
+
 # Save data
-write.table(X1, file = "wonlee_1router_t5_informative_X1.csv", sep = ",", row.names = FALSE, col.names = FALSE)
-write.table(X2, file = "wonlee_1router_t5_informative_X2.csv", sep = ",", row.names = FALSE, col.names = FALSE)
-write.table(lambdas, file = "wonlee_1router_t5_informative_lambdas.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+#write.table(X1, file = "wonlee_1router_t5_informative_X1.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+#write.table(X2, file = "wonlee_1router_t5_informative_X2.csv", sep = ",", row.names = FALSE, col.names = FALSE)
+#write.table(lambdas, file = "wonlee_1router_t5_informative_lambdas.csv", sep = ",", row.names = FALSE, col.names = FALSE)
 
 
